@@ -10,6 +10,7 @@ import pl.akademia.gifs.model.Gif;
 import pl.akademia.gifs.repository.CategoryRepository;
 import pl.akademia.gifs.repository.GifRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -36,10 +37,18 @@ public class CategoryController {
 
         Category category = categoryRepository.getCategoriesById(id);
 
-        List<Gif> gifList = gifRepository.getGifByCategory(id);
+        List<Gif> gifList = gifRepository.findAll();
+        List<Gif> gifById = new ArrayList<>();
+        for (Gif gif : gifList) {
+            if (gif.getId() == id){
+                gifById.add(gif);
+            }
+        }
+
+
 
         modelMap.put("category",category);
-        modelMap.put("gifs",gifList);
+        modelMap.put("gifs",gifById);
 
 
         return "category";

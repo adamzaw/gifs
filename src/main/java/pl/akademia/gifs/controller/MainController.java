@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pl.akademia.gifs.model.Gif;
 import pl.akademia.gifs.repository.GifRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -21,23 +23,24 @@ public class MainController {
     @GetMapping("/")
     public String hello(ModelMap modelMap) {
         //1. wyciagniecie gifów
-        List<Gif> gifList = gifRepository.getAllGifs();
+        List<Gif> gifList = gifRepository.findAll();
         //2. przekazanie do viev
         modelMap.put("gifs", gifList);
         //3. zwracanie widoku
         return "home";
     }
 
-    @GetMapping("/showgifsinbrowser")
-    @ResponseBody
-    public String showGifNames() {
-        return gifRepository.getGifsNames();
-    }
 
     @GetMapping("favorites")
     public String favoritesGifs(ModelMap modelMap) {
         //1. wyciagnięcie wartości
-        List<Gif> gifListFavorites = gifRepository.getFavoriteGifs();
+        List<Gif> allGifs = gifRepository.findAll();
+        List<Gif> gifListFavorites = new ArrayList<>();
+        for (Gif gif : allGifs) {
+            if (gif.isFavorite()){
+                gifListFavorites.add(gif);
+            }
+        }
         //2. przekazanie do view
         modelMap.put("gifs", gifListFavorites);
         //3. Zwracanie widoku
@@ -47,9 +50,11 @@ public class MainController {
     @GetMapping("gif/{name}")
     public String showGif(ModelMap modelMap, @PathVariable String name) {
 
-        Gif gifDetail = gifRepository.getGifByName(name);
+        Optional<Gif> gifDetail = gifRepository.findByName(name);
 
-        modelMap.put("gif", gifDetail);
+        if (gifDetail.isPresent()) {
+            modelMap.put("gif", gifDetail.get());
+        }
 
         return "gif-details";
     }
