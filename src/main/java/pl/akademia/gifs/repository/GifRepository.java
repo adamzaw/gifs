@@ -36,4 +36,16 @@ public class GifRepository {
 
         return ALL_GIFS.stream().filter(gif -> gif.isFavorite()).collect(Collectors.toList());
     }
+
+    public Gif getGifByName(String name) {
+
+        Gif result = null;
+
+        for (Gif gif : ALL_GIFS) {
+            if (gif.getName().equals(name)){
+                result = gif;
+            }
+        }
+        return result;
+    }
 }
