@@ -12,12 +12,12 @@ import java.util.stream.Collectors;
 public class GifRepository {
 
     private static List<Gif> ALL_GIFS = Arrays.asList(
-            new Gif("android-explosion","main",true,1),
-            new Gif("ben-and-mike","baks",true,2),
-            new Gif("book-dominos","mika",true,6),
-            new Gif("compiler-bot","bot",true,2),
-            new Gif("cowboy-coder","cage",true,1),
-            new Gif("infinite-andrew","ecopower",false,5)
+            new Gif("android-explosion", "main", true, 1),
+            new Gif("ben-and-mike", "baks", true, 2),
+            new Gif("book-dominos", "mika", true, 6),
+            new Gif("compiler-bot", "bot", true, 2),
+            new Gif("cowboy-coder", "cage", true, 1),
+            new Gif("infinite-andrew", "ecopower", false, 5)
     );
 
     public static List<Gif> getAllGifs() {
@@ -32,7 +32,7 @@ public class GifRepository {
         return result;
     }
 
-    public List<Gif> getFavoriteGifs(){
+    public List<Gif> getFavoriteGifs() {
 
         return ALL_GIFS.stream().filter(gif -> gif.isFavorite()).collect(Collectors.toList());
     }
@@ -42,7 +42,7 @@ public class GifRepository {
         Gif result = null;
 
         for (Gif gif : ALL_GIFS) {
-            if (gif.getName().equals(name)){
+            if (gif.getName().equals(name)) {
                 result = gif;
             }
         }
