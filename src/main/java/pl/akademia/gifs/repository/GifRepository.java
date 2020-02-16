@@ -14,10 +14,10 @@ public class GifRepository {
     private static List<Gif> ALL_GIFS = Arrays.asList(
             new Gif("android-explosion", "main", true, 1),
             new Gif("ben-and-mike", "baks", true, 2),
-            new Gif("book-dominos", "mika", true, 6),
+            new Gif("book-dominos", "mika", true, 3),
             new Gif("compiler-bot", "bot", true, 2),
             new Gif("cowboy-coder", "cage", true, 1),
-            new Gif("infinite-andrew", "ecopower", false, 5)
+            new Gif("infinite-andrew", "ecopower", false, 3)
     );
 
     public static List<Gif> getAllGifs() {
@@ -47,5 +47,9 @@ public class GifRepository {
             }
         }
         return result;
+    }
+
+    public List<Gif> getGifByCategory(int id) {
+        return ALL_GIFS.stream().filter(g -> g.getCategory() == id).collect(Collectors.toList());
     }
 }

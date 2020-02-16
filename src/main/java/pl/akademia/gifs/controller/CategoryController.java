@@ -6,7 +6,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import pl.akademia.gifs.model.Category;
+import pl.akademia.gifs.model.Gif;
 import pl.akademia.gifs.repository.CategoryRepository;
+import pl.akademia.gifs.repository.GifRepository;
 
 import java.util.List;
 
@@ -15,6 +17,9 @@ public class CategoryController {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    GifRepository gifRepository;
 
     @GetMapping("categories")
     public String allCategories(ModelMap modelMap){
@@ -27,8 +32,14 @@ public class CategoryController {
     }
 
     @GetMapping("category/{id}")
-    public String showInCategory(@PathVariable int id){
+    public String showInCategory(@PathVariable int id, ModelMap modelMap){
 
+        Category category = categoryRepository.getCategoriesById(id);
+
+        List<Gif> gifList = gifRepository.getGifByCategory(id);
+
+        modelMap.put("category",category);
+        modelMap.put("gifs",gifList);
 
 
         return "category";

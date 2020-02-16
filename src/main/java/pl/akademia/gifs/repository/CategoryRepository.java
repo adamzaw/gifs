@@ -19,4 +19,14 @@ public class CategoryRepository {
     public List<Category> getAllCategories() {
         return ALL_CATEGORIES;
     }
+
+    public Category getCategoriesById(int id) {
+        for (Category category : ALL_CATEGORIES) {
+            if (category.getId() == id){
+                return category;
+            }
+        }
+
+        return null;
+    }
 }
