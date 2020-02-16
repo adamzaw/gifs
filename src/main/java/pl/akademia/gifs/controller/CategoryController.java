@@ -40,16 +40,13 @@ public class CategoryController {
         List<Gif> gifList = gifRepository.findAll();
         List<Gif> gifById = new ArrayList<>();
         for (Gif gif : gifList) {
-            if (gif.getId() == id){
+            if (gif.getCategory() == id){
                 gifById.add(gif);
             }
         }
 
-
-
         modelMap.put("category",category);
         modelMap.put("gifs",gifById);
-
 
         return "category";
     };
