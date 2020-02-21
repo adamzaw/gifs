@@ -12,6 +12,7 @@ import pl.akademia.gifs.repository.GifRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class CategoryController {
@@ -25,7 +26,7 @@ public class CategoryController {
     @GetMapping("categories")
     public String allCategories(ModelMap modelMap){
 
-        List<Category> categoryList = categoryRepository.getAllCategories();
+        List<Category> categoryList = categoryRepository.findAll();
 
         modelMap.put("categories",categoryList);
 
@@ -33,9 +34,9 @@ public class CategoryController {
     }
 
     @GetMapping("category/{id}")
-    public String showInCategory(@PathVariable int id, ModelMap modelMap){
+    public String showInCategory(@PathVariable Long  id, ModelMap modelMap){
 
-        Category category = categoryRepository.getCategoriesById(id);
+        Category category = categoryRepository.getOne(id);
 
         List<Gif> gifList = gifRepository.findAll();
         List<Gif> gifById = new ArrayList<>();
@@ -45,6 +46,9 @@ public class CategoryController {
             }
         }
 
+//        if (category.isPresent()) {
+//            modelMap.put("category", category.get());
+//        }
         modelMap.put("category",category);
         modelMap.put("gifs",gifById);
 
