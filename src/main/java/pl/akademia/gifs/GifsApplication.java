@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import pl.akademia.gifs.model.Category;
 import pl.akademia.gifs.model.Gif;
 import pl.akademia.gifs.repository.CategoryRepository;
 import pl.akademia.gifs.repository.GifRepository;
+import pl.akademia.gifs.service.StorageProperties;
 
-import java.util.Arrays;
-import java.util.List;
-
+@EnableConfigurationProperties(StorageProperties.class)
 @SpringBootApplication
 public class GifsApplication implements CommandLineRunner {
 

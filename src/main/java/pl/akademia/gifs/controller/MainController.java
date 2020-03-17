@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.akademia.gifs.model.Gif;
 import pl.akademia.gifs.repository.GifRepository;
@@ -17,15 +18,30 @@ import java.util.Optional;
 @Controller
 public class MainController {
 
+
+
     @Autowired
     GifRepository gifRepository;
 
     @GetMapping("/")
-    public String hello(ModelMap modelMap) {
+    public String hello(@RequestParam(value = "q", required = false) String q, ModelMap modelMap) {
         //1. wyciagniecie gifów
         List<Gif> gifList = gifRepository.findAll();
+        if (q == null ){
+            modelMap.put("gifs", gifList);
+        } else {
+            List<Gif> gifListByName = new ArrayList<>();
+            for (Gif gif : gifList) {
+                if (gif.getName().contains(q)){
+                    gifListByName.add(gif);
+                }
+            }
+            modelMap.put("gifs", gifListByName);
+        }
+
         //2. przekazanie do viev
-        modelMap.put("gifs", gifList);
+        //modelMap.put("gifs", gifList);
+
         //3. zwracanie widoku
         return "home";
     }
@@ -55,9 +71,9 @@ public class MainController {
         if (gifDetail.isPresent()) {
             modelMap.put("gif", gifDetail.get());
         }
-
         return "gif-details";
     }
+
 
 
 }
