@@ -56,11 +56,11 @@ public class FileUploadController {
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
-       String fileName = file.getOriginalFilename();
-        if (fileName != null) {
+
+        String fileName = file.getOriginalFilename();
+        if (fileName.length()>0) {
             fileName= fileName.substring(0,fileName.lastIndexOf('.'));
         }
-
 
         gifRepository.save(new Gif(fileName,"user",false,1));
         storageService.store(file);
