@@ -1,6 +1,7 @@
 package pl.akademia.gifs.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.akademia.gifs.exception.StorageFileNotFoundException;
+import pl.akademia.gifs.model.Category;
 import pl.akademia.gifs.model.Gif;
+import pl.akademia.gifs.repository.CategoryRepository;
 import pl.akademia.gifs.repository.GifRepository;
 import pl.akademia.gifs.service.StorageService;
 
@@ -32,11 +36,17 @@ public class FileUploadController {
 
     @Autowired
     GifRepository gifRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @GetMapping("/")
-    public String listUploadedFiles(Model model) throws IOException {
+    public String listUploadedFiles(ModelMap modelMap) throws IOException {
 
-        model.addAttribute("files", storageService.loadAll().map(
+        List<Category> categoryList = categoryRepository.findAll();
+
+        modelMap.put("categories",categoryList);
+
+        modelMap.put("files", storageService.loadAll().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                         "serveFile", path.getFileName().toString()).build().toUri().toString())
                 .collect(Collectors.toList()));

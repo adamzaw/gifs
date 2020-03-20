@@ -40,6 +40,11 @@
     <form method="POST" enctype="multipart/form-data" action="/upload/">
         <table>
             <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+            <tr><td>User name:</td><td><input type="text" name="user"/></td></tr>
+            <tr><td>Select category</td><td><select th:field="*{categories}">
+                <option value="0">Select Category</option>
+                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+            </select></td></tr>
             <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
         </table>
     </form>
@@ -53,5 +58,9 @@
     </ul>
 </div>
 
+
+<script th:src="@{/vendor/jquery/jquery-1.11.3.js}"></script>
+<script th:src="@{/vendor/materialize/js/materialize.js}"></script>
+<script th:src="@{/app.js}"></script>
 </body>
 </html>
