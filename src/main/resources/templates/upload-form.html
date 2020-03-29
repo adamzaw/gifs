@@ -43,7 +43,9 @@
             <tr><td>User name:</td><td><input type="text" name="user"/></td></tr>
             <tr><td>Select category</td><td><select th:field="*{categories}">
                 <option value="0">Select Category</option>
-                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}"></option>
             </select></td></tr>
             <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
         </table>
